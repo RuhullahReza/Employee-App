@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  database:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: rahasia
+      POSTGRES_DB: employee_service_db
+    volumes:
+      - data:/var/lib/postgresql/data
+    container_name: database-postgres
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    networks:
+      - default
+    ports:
+    - "8080:8080"
+    container_name: employee-service
+    restart: on-failure
+
+volumes:
+  data:
