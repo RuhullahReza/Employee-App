@@ -25,6 +25,8 @@ var (
 		"last_name":  true,
 		"email":      true,
 		"hire_date":  true,
+		"created_at":  true,
+		"updated_at":  true,
 	}
 
 	validSort = map[string]bool{

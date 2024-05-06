@@ -36,6 +36,18 @@ func TestValidateAndSanitizeRequest(t *testing.T) {
 		assert.ErrorIs(t, err, ErrEmptyName)
 	})
 
+	t.Run("invalid name format", func(t *testing.T) {
+		req := domain.EmployeeRequest{
+			FirstName: "ozza 1",
+			LastName:  "ozza",
+			Email:     "test.test@gmail.com",
+			HireDate:  "2024-03-03",
+		}
+
+		err := ValidateAndSanitizeRequest(&req)
+		assert.ErrorIs(t, err, ErrInvalidName)
+	})
+
 	t.Run("invalid email", func(t *testing.T) {
 		req := domain.EmployeeRequest{
 			FirstName: "reza",

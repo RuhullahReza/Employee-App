@@ -1,19 +1,50 @@
 # Employee-App
 
 # How To Run App Localy
-For runing this app localy, first we need to clone this repository
+To run this application locally, follow these steps
+
+## 1. Clone the Repository
+
+Clone the GitHub repository to your local machine using the following command:
 
 ```
 git clone https://github.com/RuhullahReza/Employee-App.git
 ```
 
-After we clone the repository, we can run command for docker compose
+This will create a local copy of the project on your machine.
+
+
+## 2. Set Up Docker Compose
+Navigate to the root directory of the cloned repository in your terminal. Once there, you can run the Docker Compose command to set up and start the application
 
 ```
 docker compose up
 ```
+This command will orchestrate the necessary containers and services defined in the docker-compose.yml file to bring up the application.
 
-After the container is active, Employee app ready to accept request
+## 3. Access the Application
+Once Docker Compose has successfully started the application, you can access it using curl, postman, or web broser on `http://localhost:8080`.
+
+
+# Unit Test
+In this codebase, unit tests are primarily focused on testing the business logic within the handlers layer, service layer, and utility functions.
+
+## Testing Strategy
+- **Handlers Layer**: Unit tests for the handlers layer focus on verifying the behavior of HTTP request handlers and their interaction with service layer interfaces.
+- **Service Layer**: Tests for the service layer ensure that business logic is correctly implemented and that services interact with data sources on repository layer.
+- **Utility Functions**: Utility functions are also unit tested to ensure they perform their intended tasks accurately.
+
+## Mocking
+To isolate the components being tested and remove dependencies on external systems, we utilize mocking frameworks. Specifically, we use Mockery to automatically generate mocks for interfaces used within the service and handler layers. This allows us to simulate the behavior of dependencies during testing.
+
+## Checking Test Coverage
+To isolate the components being tested and remove dependencies on external systems, we utilize mocking frameworks. Specifically, we use Mockery to automatically generate mocks for interfaces used within the service and handler layers. This allows us to simulate the behavior of dependencies during testing.
+
+```
+go test ./... -coverprofile cover.out
+go tool cover -func cover.out | grep total:
+```
+These commands will execute all tests in the project and output the total coverage percentage, giving insight into how much of the codebase is covered by unit tests.
 
 # Employee API Documentation
 
@@ -71,6 +102,10 @@ HTTP Status Codes:
 ```
 
 **Error Response**
+
+**Error Codes**
+
+**400 Bad Request :** Invalid request body or parameters.
 ```json
 {
     "code": "Bad Request",
@@ -79,11 +114,30 @@ HTTP Status Codes:
 }
 ```
 
-**Error Codes**
+```json
+{
+    "code": "Bad Request",
+    "message": "duplicate email",
+    "serverTime": 1714997222595
+}
+```
 
-**400 Bad Request :** Invalid request body or parameters.
+```json
+{
+    "code": "Bad Request",
+    "message": "invalid date format",
+    "serverTime": 1714997245643
+}
+```
 
 **500 Internal Server Error :** Something went wrong on the server side.
+```json
+{
+    "code": "Internal Server Error",
+    "message": "something went wrong",
+    "serverTime": 1714913519908
+}
+```
 
 ## Get Employee By Id
 
@@ -126,6 +180,19 @@ HTTP Status Codes:
 ```
 
 **Error Response**
+
+**Error Codes**
+
+**400 Bad Request :** Invalid request body or parameters.
+```json
+{
+    "code": "Bad Request",
+    "message": "invalid id",
+    "serverTime": 1714997949081
+}
+```
+
+**404 Not Found :** Employee with the specified ID does not exist
 ```json
 {
     "code": "Not Found",
@@ -134,13 +201,14 @@ HTTP Status Codes:
 }
 ```
 
-**Error Codes**
-
-**400 Bad Request :** Invalid request body or parameters.
-
-**404 Not Found :** Employee with the specified ID does not exist
-
 **500 Internal Server Error :** Something went wrong on the server side.
+```json
+{
+    "code": "Internal Server Error",
+    "message": "something went wrong",
+    "serverTime": 1714913519908
+}
+```
 
 ## Get All Employee
 
@@ -155,7 +223,7 @@ Endpoint to retrieve all employee data with pagination and sorting options.
 |-----------|---------|----------------------------------------------|---------------|
 | pageNum   | integer | Specifies the page number.                   | 1             |
 | pageSize  | integer | Specifies the number of items per page.      | 20            |
-| orderBy   | string  | Specifies the field to order the results by (id, first_name, last_name, email, hire_date). | created_at     |
+| orderBy   | string  | Specifies the field to order the results by (id, first_name, last_name, email, hire_date, created_at, updated_at). | created_at     |
 | sort      | string  | Specifies the sorting order (ASC/DESC).      | DESC           |
 
 *if the value that passed into parameter is invalid, then default value will be used*
@@ -216,6 +284,13 @@ HTTP Status Codes:
 **Error Codes**
 
 **500 Internal Server Error :** Something went wrong on the server side.
+```json
+{
+    "code": "Internal Server Error",
+    "message": "something went wrong",
+    "serverTime": 1714913519908
+}
+```
 
 ## Update Employee by Id
 
@@ -245,7 +320,6 @@ Endpoint to update data for a specific employee.
 }
 ```
 
-
 ### Response
 
 HTTP Status Codes:
@@ -270,21 +344,59 @@ HTTP Status Codes:
 ```
 
 **Error Response**
-```json
-{
-    "code": "Bad Request",
-    "message": "duplicate email",
-    "serverTime": 1714914455192
-}
-```
 
 **Error Codes**
 
 **400 Bad Request :** Invalid request body or parameters.
+```json
+{
+    "code": "Bad Request",
+    "message": "invalid id",
+    "serverTime": 1714998143690
+}
+```
+
+```json
+{
+    "code": "Bad Request",
+    "message": "invalid name format",
+    "serverTime": 1714909901155
+}
+```
+
+```json
+{
+    "code": "Bad Request",
+    "message": "duplicate email",
+    "serverTime": 1714997222595
+}
+```
+
+```json
+{
+    "code": "Bad Request",
+    "message": "invalid date format",
+    "serverTime": 1714997245643
+}
+```
 
 **404 Not Found :** Employee with the specified ID does not exist.
+```json
+{
+    "code": "Not Found",
+    "message": "employee with id 11 not found",
+    "serverTime": 1714998175547
+}
+```
 
 **500 Internal Server Error :** Something went wrong on the server side.
+```json
+{
+    "code": "Internal Server Error",
+    "message": "something went wrong",
+    "serverTime": 1714913519908
+}
+```
 
 ## Delete Employee by Id
 
@@ -317,6 +429,10 @@ HTTP Status Codes:
 ```
 
 **Error Response**
+
+**Error Codes**
+
+**400 Bad Request :** Invalid request body or parameters.
 ```json
 {
     "code": "Bad Request",
@@ -325,10 +441,20 @@ HTTP Status Codes:
 }
 ```
 
-**Error Codes**
-
-**400 Bad Request :** Invalid request body or parameters.
-
 **404 Not Found :** Employee with the specified ID does not exist
+```json
+{
+    "code": "Not Found",
+    "message": "employee with id 1111 not found",
+    "serverTime": 1714998220649
+}
+```
 
 **500 Internal Server Error :** Something went wrong on the server side.
+```json
+{
+    "code": "Internal Server Error",
+    "message": "something went wrong",
+    "serverTime": 1714913519908
+}
+```
