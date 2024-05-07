@@ -52,7 +52,7 @@ These commands will execute all tests in the project and output the total covera
 
 Endpoint to create a new employee.
 
-- **URL:** `http://127.0.0.1:8080/api/employee`
+- **URL:** `http://127.0.0.1:8080/api/employees`
 - **Method:** `POST`
 - **Content-Type:** `application/json`
 
@@ -143,7 +143,7 @@ HTTP Status Codes:
 
 Endpoint to retrieve data for a specific employee.
 
-- **URL:** `http://127.0.0.1:8080/api/employee/{employee_id}`
+- **URL:** `http://127.0.0.1:8080/api/employees/{employee_id}`
 - **Method:** `GET`
 - **Content-Type:** `application/json`
 
@@ -214,7 +214,7 @@ HTTP Status Codes:
 
 Endpoint to retrieve all employee data with pagination and sorting options.
 
-- **URL:** `http://127.0.0.1:8080/api/employee`
+- **URL:** `http://127.0.0.1:8080/api/employees`
 - **Method:** `GET`
 - **Content-Type:** `application/json`
 
@@ -296,7 +296,7 @@ HTTP Status Codes:
 
 Endpoint to update data for a specific employee.
 
-- **URL:** `http://127.0.0.1:8080/api/employee/{employee_id}`
+- **URL:** `http://127.0.0.1:8080/api/employees/{employee_id}`
 - **Method:** `PUT`
 - **Content-Type:** `application/json`
 
@@ -402,7 +402,7 @@ HTTP Status Codes:
 
 Endpoint to delete data for a specific employee (soft delete).
 
-- **URL:** `http://127.0.0.1:8080/api/employee/{employee_id}`
+- **URL:** `http://127.0.0.1:8080/api/employees/{employee_id}`
 - **Method:** `DELETE`
 - **Content-Type:** `application/json`
 

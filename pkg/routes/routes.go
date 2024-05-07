@@ -19,7 +19,7 @@ func NewRoutes(app *fiber.App, h *handlers.EmployeeHandler) *Routes {
 }
 
 func (r *Routes) employeeRoutes(prefix string) {
-	resources := r.router.Group(prefix + "/employee")
+	resources := r.router.Group(prefix + "/employees")
 	resources.Post("/", r.employeeHandler.CreateNewEmployee)
 	resources.Get("/", r.employeeHandler.FindAllEmployee)
 	resources.Get("/:id", r.employeeHandler.FindEmployeeById)
