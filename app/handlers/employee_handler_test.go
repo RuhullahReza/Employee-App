@@ -26,11 +26,11 @@ func TestEmployeeHandler(t *testing.T) {
 	h := NewEmployeeHandler(uc)
 
 	app := fiber.New()
-	app.Post("api/employee", h.CreateNewEmployee)
-	app.Get("api/employee", h.FindAllEmployee)
-	app.Get("api/employee/:id", h.FindEmployeeById)
-	app.Put("api/employee/:id", h.UpdateEmployeeById)
-	app.Delete("api/employee/:id", h.DeleteEmployeeById)
+	app.Post("api/employees", h.CreateNewEmployee)
+	app.Get("api/employees", h.FindAllEmployee)
+	app.Get("api/employees/:id", h.FindEmployeeById)
+	app.Put("api/employees/:id", h.UpdateEmployeeById)
+	app.Delete("api/employees/:id", h.DeleteEmployeeById)
 
 	t.Run("Test Create Employee SUCCESS", func(t *testing.T) {
 		req := domain.EmployeeRequest{
@@ -56,7 +56,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPost, "/api/employee", &buf)
+		httpReq := httptest.NewRequest(http.MethodPost, "/api/employees", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -80,7 +80,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPost, "/api/employee", &buf)
+		httpReq := httptest.NewRequest(http.MethodPost, "/api/employees", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -104,7 +104,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPost, "/api/employee", &buf)
+		httpReq := httptest.NewRequest(http.MethodPost, "/api/employees", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -123,7 +123,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPost, "/api/employee", &buf)
+		httpReq := httptest.NewRequest(http.MethodPost, "/api/employees", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -135,7 +135,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode("abc")
 
-		httpReq := httptest.NewRequest(http.MethodPost, "/api/employee", &buf)
+		httpReq := httptest.NewRequest(http.MethodPost, "/api/employees", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -155,7 +155,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(response, nil).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -169,7 +169,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(response, errors.New("error")).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -177,7 +177,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Get All Employee BAD REQUEST invalid page size", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee?pageSize=abc", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees?pageSize=abc", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -185,7 +185,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Get All Employee BAD REQUEST invalid page num", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee?pageNum=abc", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees?pageNum=abc", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -205,7 +205,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(response, nil).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees/1", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -219,7 +219,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(response, errors.New("error")).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees/1", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -233,7 +233,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(response, repositories.ErrRecordNotFound).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees/1", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -241,7 +241,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Get Employee By ID BAD REQUEST invalid id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee/0", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees/0", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -249,7 +249,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Get Employee By ID BAD REQUEST failed to parse id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodGet, "/api/employee/abc", nil)
+		httpReq := httptest.NewRequest(http.MethodGet, "/api/employees/abc", nil)
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
 
@@ -281,7 +281,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", &buf)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -307,7 +307,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", &buf)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -333,7 +333,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", &buf)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -359,7 +359,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", &buf)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -378,7 +378,7 @@ func TestEmployeeHandler(t *testing.T) {
 		var buf bytes.Buffer
 		json.NewEncoder(&buf).Encode(req)
 
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", &buf)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", &buf)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -387,7 +387,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Update Employee By ID BAD REQUEST invalid body", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/1", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -396,7 +396,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Update Employee By ID BAD REQUEST invalid id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/0", nil)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/0", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -405,7 +405,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Update Employee By ID BAD REQUEST faild to parse id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodPut, "/api/employee/abc", nil)
+		httpReq := httptest.NewRequest(http.MethodPut, "/api/employees/abc", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -418,7 +418,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(nil).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employees/1", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -431,7 +431,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(errors.New("error")).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employees/1", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -444,7 +444,7 @@ func TestEmployeeHandler(t *testing.T) {
 			Return(repositories.ErrRecordNotFound).
 			Once()
 
-		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employee/1", nil)
+		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employees/1", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -453,7 +453,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Delete Employee By ID BAD REQUEST invalid id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employee/0", nil)
+		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employees/0", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
@@ -462,7 +462,7 @@ func TestEmployeeHandler(t *testing.T) {
 	})
 
 	t.Run("Test Delete Employee By ID BAD REQUEST failed to parse id", func(t *testing.T) {
-		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employee/abc", nil)
+		httpReq := httptest.NewRequest(http.MethodDelete, "/api/employees/abc", nil)
 		httpReq.Header.Set("content-type", "application/json")
 		resp, err := app.Test(httpReq, 2)
 		assert.NoError(t, err)
